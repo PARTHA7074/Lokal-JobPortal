@@ -1,5 +1,6 @@
 package com.partha.lokaljobportal.retrofit
 
+import com.partha.lokaljobportal.pojoClasses.JobResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

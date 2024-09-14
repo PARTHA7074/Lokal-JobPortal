@@ -1,8 +1,12 @@
-package com.partha.lokaljobportal.retrofit
+package com.partha.lokaljobportal.pojoClasses
 
 import kotlinx.parcelize.Parcelize
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
 import com.google.gson.annotations.SerializedName
+import com.partha.lokaljobportal.room.Converters
 
 @Parcelize
 data class JobResponse(
@@ -18,6 +22,8 @@ data class ContentV3(
 	val v3: List<V3Item?>? = null
 ) : Parcelable
 
+@Entity(tableName = "jobs")
+@TypeConverters(Converters::class)
 @Parcelize
 data class ResultsItem(
 
@@ -33,23 +39,8 @@ data class ResultsItem(
 	@field:SerializedName("job_role")
 	val jobRole: String? = null,
 
-	@field:SerializedName("fee_details")
-	val feeDetails: FeeDetails? = null,
-
 	@field:SerializedName("creatives")
 	val creatives: List<CreativesItem?>? = null,
-
-	@field:SerializedName("videos")
-	val videos: List<String?>? = null,
-
-	@field:SerializedName("screening_retry")
-	val screeningRetry: String? = null,
-
-	@field:SerializedName("type")
-	val type: Int? = null,
-
-	@field:SerializedName("experience")
-	val experience: Int? = null,
 
 	@field:SerializedName("is_bookmarked")
 	val isBookmarked: Boolean? = null,
@@ -57,32 +48,12 @@ data class ResultsItem(
 	@field:SerializedName("expire_on")
 	val expireOn: String? = null,
 
+	@PrimaryKey(autoGenerate = false)
 	@field:SerializedName("id")
 	val id: Int? = null,
 
-	@field:SerializedName("city_location")
-	val cityLocation: Int? = null,
-
-	@field:SerializedName("locality")
-	val locality: Int? = null,
-
 	@field:SerializedName("job_hours")
 	val jobHours: String? = null,
-
-	@field:SerializedName("should_show_last_contacted")
-	val shouldShowLastContacted: Boolean? = null,
-
-	@field:SerializedName("question_bank_id")
-	val questionBankId: String? = null,
-
-	@field:SerializedName("premium_till")
-	val premiumTill: String? = null,
-
-	@field:SerializedName("tags")
-	val tags: List<String?>? = null,
-
-	@field:SerializedName("translated_content")
-	val translatedContent: TranslatedContent? = null,
 
 	@field:SerializedName("qualification")
 	val qualification: Int? = null,
@@ -99,20 +70,11 @@ data class ResultsItem(
 	@field:SerializedName("job_location_slug")
 	val jobLocationSlug: String? = null,
 
-	@field:SerializedName("job_category_id")
-	val jobCategoryId: Int? = null,
-
 	@field:SerializedName("button_text")
 	val buttonText: String? = null,
 
-	@field:SerializedName("is_job_seeker_profile_mandatory")
-	val isJobSeekerProfileMandatory: Boolean? = null,
-
 	@field:SerializedName("status")
 	val status: Int? = null,
-
-	@field:SerializedName("job_type")
-	val jobType: Int? = null,
 
 	@field:SerializedName("openings_count")
 	val openingsCount: Int? = null,
@@ -120,17 +82,11 @@ data class ResultsItem(
 	@field:SerializedName("primary_details")
 	val primaryDetails: PrimaryDetails? = null,
 
-	@field:SerializedName("fees_charged")
-	val feesCharged: Int? = null,
-
 	@field:SerializedName("title")
 	val title: String? = null,
 
 	@field:SerializedName("is_applied")
 	val isApplied: Boolean? = null,
-
-	@field:SerializedName("enable_lead_collection")
-	val enableLeadCollection: Boolean? = null,
 
 	@field:SerializedName("content")
 	val content: String? = null,
@@ -141,29 +97,14 @@ data class ResultsItem(
 	@field:SerializedName("salary_min")
 	val salaryMin: Int? = null,
 
-	@field:SerializedName("shift_timing")
-	val shiftTiming: Int? = null,
-
 	@field:SerializedName("fb_shares")
 	val fbShares: Int? = null,
 
 	@field:SerializedName("views")
 	val views: Int? = null,
 
-	@field:SerializedName("job_role_id")
-	val jobRoleId: Int? = null,
-
-	@field:SerializedName("advertiser")
-	val advertiser: Int? = null,
-
 	@field:SerializedName("contact_preference")
 	val contactPreference: ContactPreference? = null,
-
-	@field:SerializedName("fees_text")
-	val feesText: String? = null,
-
-	@field:SerializedName("amount")
-	val amount: String? = null,
 
 	@field:SerializedName("whatsapp_no")
 	val whatsappNo: String? = null,
@@ -183,16 +124,8 @@ data class ResultsItem(
 	@field:SerializedName("contentV3")
 	val contentV3: ContentV3? = null,
 
-	@field:SerializedName("locations")
-	val locations: List<LocationsItem?>? = null,
-
 	@field:SerializedName("job_category")
 	val jobCategory: String? = null
-) : Parcelable
-
-@Parcelize
-data class TranslatedContent(
-	val any: String? = null
 ) : Parcelable
 
 @Parcelize
@@ -206,19 +139,6 @@ data class V3Item(
 
 	@field:SerializedName("field_name")
 	val fieldName: String? = null
-) : Parcelable
-
-@Parcelize
-data class LocationsItem(
-
-	@field:SerializedName("id")
-	val id: Int? = null,
-
-	@field:SerializedName("state")
-	val state: Int? = null,
-
-	@field:SerializedName("locale")
-	val locale: String? = null
 ) : Parcelable
 
 @Parcelize
@@ -270,13 +190,6 @@ data class ContactPreference(
 ) : Parcelable
 
 @Parcelize
-data class FeeDetails(
-
-	@field:SerializedName("V3")
-	val v3: List<String?>? = null
-) : Parcelable
-
-@Parcelize
 data class PrimaryDetails(
 
 	@field:SerializedName("Salary")
@@ -284,9 +197,6 @@ data class PrimaryDetails(
 
 	@field:SerializedName("Experience")
 	val experience: String? = null,
-
-	@field:SerializedName("Qualification")
-	val qualification: String? = null,
 
 	@field:SerializedName("Job_Type")
 	val jobType: String? = null,

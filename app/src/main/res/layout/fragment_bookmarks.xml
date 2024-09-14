@@ -6,8 +6,11 @@
     tools:context=".ui.bookmarks.BookmarksFragment">
 
     <TextView
+        android:id="@+id/emptyText"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hello bookmark" />
+        android:text="No jobs saved yet."
+        android:gravity="center"
+        android:textSize="18sp"/>
 
 </FrameLayout>
