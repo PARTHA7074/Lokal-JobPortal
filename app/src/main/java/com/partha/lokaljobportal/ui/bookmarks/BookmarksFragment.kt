@@ -8,10 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
 import com.partha.lokaljobportal.R
 import com.partha.lokaljobportal.adapters.JobsRecyclerAdapter
 import com.partha.lokaljobportal.databinding.FragmentBookmarksBinding
 import com.partha.lokaljobportal.pojoClasses.ResultsItem
+import com.partha.lokaljobportal.ui.bookmarks.BookmarksFragmentDirections
+import com.partha.lokaljobportal.ui.jobs.JobsFragmentDirections
 
 class BookmarksFragment : Fragment() {
     private lateinit var binding: FragmentBookmarksBinding
@@ -26,8 +29,10 @@ class BookmarksFragment : Fragment() {
 
 
         jobAdapter = JobsRecyclerAdapter(isBookmarksFragment = true, onJobClick = { job ->
-
-
+            job?.let {
+                val action = BookmarksFragmentDirections.actionBookmarksFragmentToJobDetailsFragment(it)
+                findNavController().navigate(action)
+            }
         }, onBookmarkClick = { isBookmarked, job ->
             if (isBookmarked) job?.let { viewModel.insertResultItem(it) }
             else job?.id?.let { viewModel.deleteResultItemById(it) }

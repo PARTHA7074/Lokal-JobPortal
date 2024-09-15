@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.partha.lokaljobportal.adapters.JobsRecyclerAdapter
@@ -28,8 +29,10 @@ class JobsFragment : Fragment() {
         binding = FragmentJobsBinding.inflate(inflater, container, false)
 
         jobAdapter = JobsRecyclerAdapter(onJobClick = { job ->
-
-
+            job?.let {
+                val action = JobsFragmentDirections.actionJobsFragmentToJobDetailsFragment(it)
+                findNavController().navigate(action)
+            }
         }, onBookmarkClick = { isBookmarked, job ->
             if (isBookmarked) {
                 job?.let { viewModel.insertResultItem(it) }
