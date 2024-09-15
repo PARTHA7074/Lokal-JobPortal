@@ -3,10 +3,10 @@
 
     <item
         android:id="@+id/jobsFragment"
-        android:icon="@drawable/ic_launcher_foreground"
+        android:icon="@drawable/twotone_work_24"
         android:title="Jobs" />
     <item
         android:id="@+id/bookmarksFragment"
-        android:icon="@drawable/ic_launcher_foreground"
+        android:icon="@drawable/outline_bookmark_border_24"
         android:title="Bookmarks" />
 </menu>

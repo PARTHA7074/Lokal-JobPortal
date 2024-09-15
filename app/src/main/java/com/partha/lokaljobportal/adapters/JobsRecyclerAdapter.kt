@@ -31,6 +31,7 @@ class JobsRecyclerAdapter(
                     else R.drawable.outline_bookmark_border_24
                 )
 
+                binding.jobCompanyName.text = it.companyName ?: "N/A"
                 binding.jobTitle.text = it.jobRole ?: "N/A"
                 binding.jobLocation.text = it.jobLocationSlug ?: "N/A"
                 binding.jobSalary.text = "${it.salaryMin} - ${it.salaryMax} monthly"
