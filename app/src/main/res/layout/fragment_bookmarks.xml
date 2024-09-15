@@ -6,21 +6,46 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.bookmarks.BookmarksFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/jobsRecyclerView"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/job_item"/>
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/emptyText"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="No saved jobs found"
-        android:gravity="center"
-        android:visibility="gone"
-        android:textStyle="bold"
-        android:textSize="18sp"/>
+        <LinearLayout
+            android:id="@+id/appBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="0dp"
+            android:orientation="horizontal"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="16dp">
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Headline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Saved Jobs" />
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/jobsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/appBar"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/job_item"/>
+
+        <TextView
+            android:id="@+id/emptyText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No saved jobs found"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+
+    </RelativeLayout>
 
 </FrameLayout>
