@@ -205,5 +205,8 @@ data class PrimaryDetails(
 	val feesCharged: String? = null,
 
 	@field:SerializedName("Place")
-	val place: String? = null
+	val place: String? = null,
+
+	@field:SerializedName("Qualification")
+	val qualification: String? = null,
 ) : Parcelable
