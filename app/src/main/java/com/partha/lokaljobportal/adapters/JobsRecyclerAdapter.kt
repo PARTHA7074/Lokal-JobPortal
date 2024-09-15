@@ -4,6 +4,8 @@ import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.RecyclerView
 import com.partha.lokaljobportal.R
 import com.partha.lokaljobportal.databinding.JobItemBinding
@@ -11,15 +13,17 @@ import com.partha.lokaljobportal.pojoClasses.ResultsItem
 import com.partha.lokaljobportal.utils.SharedPrefManager
 
 class JobsRecyclerAdapter(
-    private var jobsList: MutableList<ResultsItem?> = ArrayList(),
+    var jobsList: MutableList<ResultsItem?> = ArrayList(),
     private val onJobClick: (ResultsItem?) -> Unit,
-    private val onBookmarkClick: (Boolean, ResultsItem?) -> Unit
+    private val onBookmarkClick: (Boolean, ResultsItem?) -> Unit,
+    private val isBookmarksFragment: Boolean = false
 ) : RecyclerView.Adapter<JobsRecyclerAdapter.JobViewHolder>() {
 
     inner class JobViewHolder(private val binding: JobItemBinding) : RecyclerView.ViewHolder(binding.root) {
         private val sharedPrefManager = SharedPrefManager(binding.root.context)
 
-        fun bind(job: ResultsItem?) {
+        fun bind(position: Int) {
+            val job = jobsList[position]
             job?.let {
                 var isBookmarked = job.id?.let { it1 -> sharedPrefManager.getBookmarkStatus(it1) }?: false
                 binding.bookmarkButton.setImageResource(
@@ -54,14 +58,22 @@ class JobsRecyclerAdapter(
                 }
                 binding.root.setOnClickListener { onJobClick(job) }
                 binding.bookmarkButton.setOnClickListener {
-                    isBookmarked = !isBookmarked
-                    job.id?.let { it1 -> sharedPrefManager.saveBookmarkStatus(it1, isBookmarked) }
-                    onBookmarkClick(isBookmarked, job)
+                    if (job.jobRole != null && job.id != null) {
+                        isBookmarked = !isBookmarked
+                        sharedPrefManager.saveBookmarkStatus(job.id, isBookmarked)
+                        onBookmarkClick(isBookmarked, job)
 
-                    binding.bookmarkButton.setImageResource(
-                        if (isBookmarked) R.drawable.baseline_bookmark_24
-                        else R.drawable.outline_bookmark_border_24
-                    )
+                        binding.bookmarkButton.setImageResource(
+                            if (isBookmarked) R.drawable.baseline_bookmark_24
+                            else R.drawable.outline_bookmark_border_24
+                        )
+
+                        if (isBookmarksFragment && !isBookmarked) {
+                            jobsList.removeAt(position)
+                            notifyItemRemoved(position)
+                        }
+                        Toast.makeText(binding.root.context, "${if (isBookmarked) "Job saved" else "Job removed"}", Toast.LENGTH_SHORT).show()
+                    } else Toast.makeText(binding.root.context, "This Job is invalid", Toast.LENGTH_SHORT).show()
 
                 }
             }
@@ -73,7 +85,7 @@ class JobsRecyclerAdapter(
     }
 
     override fun onBindViewHolder(holder: JobViewHolder, position: Int) {
-        holder.bind(jobsList[position])
+        holder.bind(position)
     }
 
     override fun getItemCount(): Int = jobsList.size
@@ -82,6 +94,12 @@ class JobsRecyclerAdapter(
     fun addJobs(newJobs: List<ResultsItem?>) {
         jobsList.addAll(newJobs)
         notifyItemRangeInserted(jobsList.size - newJobs.size, newJobs.size)
+    }
+
+    fun setJobs(newJobs: List<ResultsItem?>) {
+        jobsList.clear()
+        jobsList.addAll(newJobs)
+        notifyDataSetChanged()
     }
 
 }

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -30,8 +31,9 @@ class JobsFragment : Fragment() {
 
 
         }, onBookmarkClick = { isBookmarked, job ->
-            if (isBookmarked) job?.let { viewModel.insertResultItem(it) }
-            else job?.id?.let { viewModel.deleteResultItemById(it) }
+            if (isBookmarked) {
+                job?.let { viewModel.insertResultItem(it) }
+            } else job?.id?.let { viewModel.deleteResultItemById(it) }
         })
 
         binding.jobsRecyclerView.apply {
@@ -55,14 +57,16 @@ class JobsFragment : Fragment() {
             })
         }
 
-        if (viewModel.jobs.value == null) {
+        if (viewModel.jobs.value?.results.isNullOrEmpty()) {
             setLoading(true)
             viewModel.fetchJobs(currentPage++)
         }
+
         viewModel.jobs.observe(viewLifecycleOwner) { jobResponse ->
-            jobAdapter.addJobs(jobResponse.results?: emptyList())
-            setLoading(false)
             isLastPage = jobResponse.results?.isEmpty() == true
+            jobAdapter.addJobs(jobResponse.results?: emptyList())
+            viewModel.jobs.value?.results = jobAdapter.jobsList
+            setLoading(false)
         }
         viewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
             setLoading(false)

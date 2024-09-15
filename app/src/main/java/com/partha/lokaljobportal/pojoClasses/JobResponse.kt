@@ -12,7 +12,7 @@ import com.partha.lokaljobportal.room.Converters
 data class JobResponse(
 
 	@field:SerializedName("results")
-	val results: List<ResultsItem?>? = null
+	var results: List<ResultsItem?>? = null
 ) : Parcelable
 
 @Parcelize
