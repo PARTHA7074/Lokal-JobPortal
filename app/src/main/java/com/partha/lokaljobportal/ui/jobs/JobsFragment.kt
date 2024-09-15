@@ -73,6 +73,7 @@ class JobsFragment : Fragment() {
         }
         viewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
             setLoading(false)
+            Toast.makeText(requireContext(), "Something went wrong.", Toast.LENGTH_SHORT).show()
         }
 
         return binding.root
